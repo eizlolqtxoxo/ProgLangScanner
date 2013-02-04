@@ -1,0 +1,34 @@
+/* unsigned number dfa c scanner
+
+unfinished
+ */
+
+#include <stdio.h>
+#include <stdlib.h>
+
+#define S_start 0
+#define S_D 1
+#define S_Error 2
+#define S_F 3
+#define S_FMaybe 4
+#define S_Integer 5
+#define	S_Float 6
+
+void readIn(FILE *f){
+	int c;
+	int state = D_Start;
+	while ((c = fgetc(f)) != EOF)
+		switch (state){
+	
+		}	
+}
+
+int main(int argc, char **argv){ 
+	int i;
+	FILE *f;
+		f= fopen(argv[1], "r");
+		if (f != EOF){
+			readIn(f);
+			fclose(f);
+		} 	
+}

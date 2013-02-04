@@ -1,0 +1,68 @@
+/* Code: */
+#include <stdio.h>
+#include <stdlib.h>
+/* A couple of globals */
+int lineno = 0;
+int number;
+char string[100];
+#define NUMBER 1
+#define STRING 2
+#define ASSIGN 3
+#define DIV 4
+
+int main(int argc, char **argv){
+  int rc;
+  while ((rc=yylex())){
+    switch (rc){
+    case NUMBER:
+      printf("We recognized a number of value %d\n", number);
+      break;
+    case STRING:
+      printf("We recognized a string of value %s\n", string);
+      break;
+    case '+':
+      printf ("+\n");
+      break;
+
+    }
+  }
+  return 0;
+}
+
+int yylex(){
+  int c;
+  while ((c=getchar()) == ' ' || c == '\t')
+    ;                      /* Do nothing */
+
+  if (c == EOF)
+    return 0;
+
+  if (isdigit(c)){
+    ungetc(c,stdin);
+    scanf("%d", &number);
+    return NUMBER;
+  } else if (c=='+'||c=='-'||c=='/'||c=='*'||c=='('||c==')'){
+    return c;
+  } else if (c==':'){
+      c=getchar();
+      if (c=='=')
+        return ASSIGN;
+  } else if (c=='/'){
+      c=getchar();
+      if (c=='*'||c=='/')
+        c=getchar();
+        if (c=='*/'||'newline');
+          return 0;
+        else
+          return DIV;
+  } else {
+    ungetc(c,stdin);
+    scanf("%s", string);
+    return STRING;
+  }
+
+}
+/* scanner-simplest.c ends here */
+
+/* make ./scanner-simplest in the directory
+add new assignments to scanner-lex.c */
