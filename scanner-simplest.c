@@ -75,16 +75,16 @@ int main(int argc, char **argv){
     case DIV:
       printf ("DIV");
       break;
-    case ERROR;
+    case ERROR:
       printf("ERROR");
       break;
-    case ID;
+    case ID:
       printf("ID");
       break;
-    case READ;
+    case READ:
       printf("READ");
       break;
-    case WRITE;
+    case WRITE:
       printf("WRITE");
       break;
     }
@@ -112,95 +112,67 @@ int yylex(){
         return ASSIGN;
   } else if (c=='/'){
       c=getchar();
-      if (c=='*')
+      if (c=='*'){
         c=getchar();
-        while (c != '*');
+        }while (c != '*'){
           c=getchar();
-          if (c== '*')
+          }if (c== '*'){
             c=getchar();
-            if (c== '/')
+            }if (c== '/'){
               return 0;
-      if (c=='\\')
+            }
+      }if (c=='\\'){
         c=getchar();
-        if (c=='n')
+        }if (c=='n'){
           return 0;
-      else 
+      }else {
         return DIV;
   } else if (c=='.'){
-    c=getchar();
-      while (c==[0-9]);
-        c=getchar();
-        if (c!= [0-9]||'.')
+      if(isdigit(getchar())){
+        while (isdigit(getchar()));
+        return NUMBER;
+      } else {
           return ERROR;
-        else
-          return NUMBER;
-  } else if (c==[0-9]){
-      c=getchar();
-      while (c==[0-9]);
+      }
+  } else if (isdigit(c)){
+      int seen_point=0;
+      int cont=1;
+      while(cont){
         c=getchar();
-          if (c=='.')
+        if (isdigit(c))
+          continue;
+        else if (c=='.' && !seen_point)
+          seen_point=1;
+        else 
+          cont=0;
+      }
+        return NUMBER;
+    /*else if (c==[0-9]){
+      c=getchar();
+      while (c==[0-9]){
+        c=getchar();
+          }if (c=='.'){
             c=getchar();
-            if (c==[0-9])
+            }if (c==[0-9]){
               getchar();
-            else
+            }else{
               break;
       return NUMBER;
-  } else if (c==[a-zA-Z]){
-    /* needs to be fixed. I was not sure of exactly what to search for to do this better */
-      if (c=='r')
-        c=getchar();
-        else
-          return ID;
-        if (c=='e')
-          c=getchar();
-        else 
-          return ID;
-          if (c=='a')
-            c=getchar();
-          else
-            return ID;
-            if (c=='d')
-              c=getchar();
-            else
-              return ID;
-              if (c=='(')
-                getchar();
-                else
-                  return ID;
-                if(c==')')
-                  return READ;
-      if (c=='w')
-        c=getchar();
-        else
-          return ID;
-        if (c=='r')
-          c=getchar();
-        else 
-          return ID;
-          if (c=='i')
-            c=getchar();
-          else
-            return ID;
-            if (c=='t')
-              c=getchar();
-            else
-              return ID;
-              if (c=='e')
-                getchar();
-                else
-                  return ID;
-                if(c=='(')
-                  getchar();
-                  else
-                    return ID;
-                  if (c==')')
-                    return WRITE;
-                    else 
-                      return ID;
-        else
-          return ERROR;
-
-
+      */
+  } else if (isalpha(c)){
+    if (c=='r' &&
+        next_is('e') &&
+        next_is('a') &&
+        next_is('d'))
+      return READ;
+    if (c=='w' &&
+        next_is('r') &&
+        next_is('i') &&
+        next_is('t') &&
+        next_is('e'))
+      return WRITE;
+    while (isalnum(getchar()));
+    return ID;
   } else {
     ungetc(c,stdin);
     scanf("%s", string);

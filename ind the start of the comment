@@ -1,0 +1,9 @@
+ind the start of the comment
+/
+getchar, see if it's a / or *
+if it's /, loop, c=getchar until you find c=\n
+if it's *, loop, c=getchar until you find a *
+another getchar
+if it's a /
+you've found the end of your comment
+otherwise, continue the loop
